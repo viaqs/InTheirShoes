@@ -6,7 +6,7 @@ public class FpsCamera : MonoBehaviour
 {
     public float mouseSensitivity = 100f;
     public Transform body;
-    public float xRotation = 0f;
+    private float xRotation = 0f;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
