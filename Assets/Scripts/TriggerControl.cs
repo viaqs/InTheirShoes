@@ -8,6 +8,7 @@ public class TriggerControl : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI instruction;
     [SerializeField] private Transform chair;
+    [SerializeField] private Collider chairCollider;
     [SerializeField] private CharacterController controller;
     [SerializeField] private Transform player;
     private Vector3 savedPos;
@@ -16,7 +17,7 @@ public class TriggerControl : MonoBehaviour
     
     void Start()
     {
-        
+        chairCollider.enabled = true;
     }
 
 
@@ -24,12 +25,15 @@ public class TriggerControl : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            savedPos = player.position;
             instruction.text = "Press [E] to sit down";
             isInTrigger = true;
         }
-       
+    }
 
-
+    private void OnTriggerExit(Collider other)
+    {
+        instruction.text = " ";
     }
     void Update()
     {
@@ -37,6 +41,7 @@ public class TriggerControl : MonoBehaviour
         {
             Movement.canMove = false;
             controller.enabled = false;
+            chairCollider.enabled = false;
             player.position = chair.position;
             isSat = true;
            
@@ -44,6 +49,14 @@ public class TriggerControl : MonoBehaviour
         if (isSat == true)
         {
             instruction.text = "Press [R] to stand up\nPress [T] to interact with PC";
+            if(Input.GetKeyDown(KeyCode.R))
+            { 
+                player.position = savedPos;
+                chairCollider.enabled = true;
+                controller.enabled = true;
+                Movement.canMove = true;
+                isSat=false;
+            }
         }
     }
 }
