@@ -5,16 +5,16 @@ using TMPro;
 
 public class Movement : MonoBehaviour
 {
+   
     public float speed = 3f;
     private CharacterController controller;
-    public static bool canMove = true;
-   
+    public static bool canMove;
     
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        canMove = true;
         
-
     }
     void Update()
     {

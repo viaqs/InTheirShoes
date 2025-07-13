@@ -6,15 +6,22 @@ using UnityEngine.InputSystem.XR;
 
 public class TriggerControl : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI instruction;
+    [Header("Desktop Trigger area")]
     [SerializeField] private Transform chair;
     [SerializeField] private Collider chairCollider;
+
+    [Header("UI")]
+    public TextMeshProUGUI instruction;
+
+    [Header("Player Detection")]
     [SerializeField] private CharacterController controller;
     [SerializeField] private Transform player;
     private Vector3 savedPos;
+
+
     private bool isInTrigger = false;
     private bool isSat=false;
-    
+
     void Start()
     {
         chairCollider.enabled = true;
@@ -23,20 +30,37 @@ public class TriggerControl : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Player entered the trigger!");
+            if (player == null)
+            {
+                Debug.LogError("Player Transform is not assigned!");
+                return;
+            }
+
+            if (instruction == null)
+            {
+                Debug.LogError("Instruction Text is not assigned!");
+                return;
+            }
+
             savedPos = player.position;
             instruction.text = "Press [E] to sit down";
             isInTrigger = true;
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit()
     {
         instruction.text = " ";
     }
     void Update()
     {
+        
+        
+        if (GameManager.desktopArea == false) return;
+
         if (isInTrigger == true && Input.GetKeyDown(KeyCode.E))
         {
             Movement.canMove = false;
@@ -58,5 +82,12 @@ public class TriggerControl : MonoBehaviour
                 isSat=false;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            controller.enabled = true;
+           
+        }
+
     }
 }
