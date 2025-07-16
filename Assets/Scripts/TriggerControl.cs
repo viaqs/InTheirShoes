@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
@@ -27,7 +28,18 @@ public class TriggerControl : MonoBehaviour
         chairCollider.enabled = true;
     }
 
-
+    public void SitDown()
+    {
+        Movement.canMove = false;
+        controller.enabled = false;
+        chairCollider.enabled = false;
+        player.position = chair.position;
+        isSat = true;
+        if (isSat == true)
+        {
+            instruction.text = "Press [R] to stand up\nPress [T] to interact with PC";
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -59,7 +71,7 @@ public class TriggerControl : MonoBehaviour
     {
         
         
-        if (GameManager.desktopArea == false) return;
+       
 
         if (isInTrigger == true && Input.GetKeyDown(KeyCode.E))
         {
@@ -89,5 +101,7 @@ public class TriggerControl : MonoBehaviour
            
         }
 
+     
+    
     }
 }

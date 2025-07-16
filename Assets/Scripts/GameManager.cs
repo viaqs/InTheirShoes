@@ -13,11 +13,9 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
    public static GameManager Instance;
+    
 
-    [Header("Bools")]
-    public static bool desktopArea;
    
-
     [Header("UI")]
     [SerializeField] private Image fadeImg;
     private float fadeSpeed = 1.0f;
@@ -40,18 +38,22 @@ public class GameManager : MonoBehaviour
         comment.SetActive(false);
     }
 
-    IEnumerator EnterPC()
+    public IEnumerator EnterPC()
     {
         fadeImg.enabled = true;
         yield return StartCoroutine(Fade(1));
-
+        Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene("Website");
+        
+       
+     
     }
     public IEnumerator ExitPC()
-    {   fadeImg.enabled = true;
-        yield return StartCoroutine(Fade(1));
+    {
+         fadeImg.enabled = true;
+         yield return StartCoroutine(Fade(1));
+         SceneManager.LoadScene("Apartment");
 
-        SceneManager.LoadScene("Apartment");
     }
 
     IEnumerator Fade(float targetAlpha)
@@ -80,20 +82,10 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-        if (!desktopArea) return;
-
         if (isWebOpen == true && Input.GetKeyDown(KeyCode.X))
         {
             comment.SetActive(true);
         }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-           StartCoroutine(EnterPC());
-            Cursor.lockState = CursorLockMode.None;
-            
-        }
-
 
         if (Input.GetKeyDown(KeyCode.Q))
         {

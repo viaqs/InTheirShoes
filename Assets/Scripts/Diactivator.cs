@@ -11,7 +11,7 @@ public class Diactivator : MonoBehaviour
     {   
         if (other.CompareTag("Player"))
         {
-            GameManager.desktopArea = true;
+            
             triggerControl.SetActive(true);
         }
     }
@@ -19,7 +19,7 @@ public class Diactivator : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.desktopArea = false;
+          
             triggerControl.SetActive(false);
         }
         
