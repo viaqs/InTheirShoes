@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TriggerManager : MonoBehaviour
@@ -50,9 +51,7 @@ public class TriggerManager : MonoBehaviour
         else if (isHoldingSandwich && Input.GetKeyDown(KeyCode.R))
         {
             DropSandwich();
-            interactionText.text = currentRoom == Room.kitchen
-                ? "Press [R] to grab the sandwich again."
-                : "";
+            
         }
 
 
@@ -86,6 +85,8 @@ public class TriggerManager : MonoBehaviour
             case Room.kitchen:
                 interactionText.text = "Press E to make a sandwich";
                 interactionText.enabled = true;
+                
+
                 break;
             case Room.bathroom:
                 interactionText.text = "Press E to take a shower";
@@ -131,13 +132,12 @@ public class TriggerManager : MonoBehaviour
     }
     void DropSandwich()
     {
-        Debug.Log("You dropped the sandwich!");
 
         sandwich.transform.SetParent(null);
         sandwich.transform.position = handPoint.position + player.forward * 1f;
         sandwichRb.isKinematic = false;
-
         isHoldingSandwich = false;
+        
     }
 
         void GrabSandwich()
@@ -174,11 +174,5 @@ public class TriggerManager : MonoBehaviour
         }
     }
 
-    public void MoveSandwitch()
-    {
-        if(isHere == true)
-        {
-            
-        }
-    }
+   
 }
