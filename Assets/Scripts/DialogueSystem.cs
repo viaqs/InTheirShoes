@@ -5,75 +5,47 @@ using TMPro;
 using UnityEngine.UI;
 using static TriggerManager;
 
+[System.Serializable]
+public class DialogueCharacter
+{
+    public string name;
+    public Sprite icon;
+}
+
+[System.Serializable] 
+public class DialogueLine
+{
+    public DialogueCharacter character;
+    [TextArea(3,10)]
+    public string line;
+}
+[System.Serializable]
+public class Dialogue
+{
+    public List<DialogueLine> dialogueLines = new List<DialogueLine>();
+}
+
 public class DialogueSystem : MonoBehaviour
-{   
-    public static DialogueSystem instance;
+{
+    public Dialogue dialogue;
 
-
-    public TextMeshProUGUI text;
-    public Sprite[] portraits;
-    public Image image;
-    public string[] lines;
-    public float typeSpeed;
-
-    private int index;
-
-    private void Awake()
+    public void triggerDialogue()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
-
+        DialogueManager.instance.StartDialogue(dialogue);
     }
-    void Start()
+
+    private void OnTriggerEnter(Collider other)
     {
-        text.text = string.Empty;
-        StartDialogue();
-    }
-     void Update()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            if (text.text == lines[index])
-            {
-                NextLine();
-            }
-            else
-            {
-                StopAllCoroutines();
-                text.text = lines[index];
-            }
-       
+        if (other.CompareTag("Player"))
+        { 
+            triggerDialogue();
+            Cursor.lockState = CursorLockMode.None;
+
         }
     }
-    public void StartDialogue()
+    private void OnTriggerExit(Collider other)
     {
-        index = 0;
-        image.sprite = portraits[index];
-        StartCoroutine(TypeLine());
+        Destroy(gameObject);
+        Cursor.lockState = CursorLockMode.Locked;
     }
-
-    IEnumerator TypeLine()
-    {
-        foreach(char c in lines[index].ToCharArray())
-        {
-            text.text += c;
-            yield return new WaitForSeconds(typeSpeed);
-        }
-    }
-    
-    void NextLine()
-    {
-        if (index < lines.Length - 1)
-        {
-            index++;
-            text.text = string.Empty;
-            image.sprite = portraits[index];
-            StartCoroutine(TypeLine());
-        }
-        else
-        {
-            gameObject.SetActive(false);
-        }
-    }
-
 }

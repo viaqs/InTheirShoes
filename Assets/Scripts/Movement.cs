@@ -5,12 +5,20 @@ using TMPro;
 
 public class Movement : MonoBehaviour
 {
-   
+    public static Movement Instance;
     public float speed = 3f;
     private CharacterController controller;
     public static bool canMove;
-    
-    void Start()
+
+
+    private void Awake()
+    {
+        if (Instance == null)
+        { Instance = this; }
+    }
+
+
+        void Start()
     {
         controller = GetComponent<CharacterController>();
         canMove = true;
