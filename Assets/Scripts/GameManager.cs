@@ -13,8 +13,9 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
    public static GameManager Instance;
-    
 
+    public GameObject window;
+    public Button button;
    
     [Header("UI")]
     [SerializeField] private Image fadeImg;
@@ -78,7 +79,17 @@ public class GameManager : MonoBehaviour
         isWebOpen = false;
     }
 
-   
+   public void interaction1()
+    {
+        window.SetActive(true);
+    }
+    public void interaction2()
+    {
+        window.SetActive(false);
+        Destroy(button);
+        
+    }
+
     void Update()
     {
 

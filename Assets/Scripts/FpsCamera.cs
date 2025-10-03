@@ -26,5 +26,11 @@ public class FpsCamera : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         body.Rotate(Vector3.up * mouseX);
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+       
     }
 }

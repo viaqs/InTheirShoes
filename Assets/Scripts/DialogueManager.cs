@@ -35,8 +35,8 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
-        Movement.Instance.speed = 0f;
-        DialogBox.SetActive(true);
+            Movement.Instance.speed = 0f;
+            DialogBox.SetActive(true);
             isDialogueActive =true;
             lines.Clear();
 
